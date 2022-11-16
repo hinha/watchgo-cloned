@@ -15,19 +15,12 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-      GOPATH: ${{ github.workspace }}
       GO111MODULE: on
 
-    defaults:
-      run:
-        working-directory: ${{ env.GOPATH }}/src/github.com
-
     steps:
-      - uses: actions/checkout@v3
-        with:
-          path: ${{ env.GOPATH }}
+      - uses: actions/checkout@v2
       - name: Setup Go ${{ matrix.go-version }}
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
