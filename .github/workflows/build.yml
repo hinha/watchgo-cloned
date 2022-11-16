@@ -18,14 +18,12 @@ jobs:
       GOPATH: ${{ github.workspace }}
       GO111MODULE: on
 
-    defaults:
-      run:
-        working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
+#    defaults:
+#      run:
+#        working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v3
         with:
@@ -35,8 +33,6 @@ jobs:
       - name: Run build
         run: |
           mkdir -p build/{386,amd64}
-          go list ./cmd
-          ls -l
           go mod vendor
           GOOS=linux GOARCH=386 go build -o build/386/${MYAPP}-386 ./cmd/main.go
           GOOS=linux GOARCH=amd64 go build -o build/amd64/${MYAPP}-amd64 ./cmd/main.go
