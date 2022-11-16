@@ -29,12 +29,10 @@ jobs:
       - name: Verify dependencies
         run: go mod verify
       - name: Build
-        run: GOOS=linux GOARCH=amd64 go build -o build/amd64/${{ env.MYAPP }}-amd64 ./cmd/main.go
-#      - name: Run build
-#        run: |
-#          mkdir -p build/{386,amd64}
-#          go mod download
-#          go mod vendor
-#          go mod tidy
-#          GOOS=linux GOARCH=386 go build -o build/386/${{ env.MYAPP }}-386 ./cmd/main.go
-#          GOOS=linux GOARCH=amd64 go build -o build/amd64/${{ env.MYAPP }}-amd64 ./cmd/main.go
+        run: |
+          mkdir -p build/amd64
+          GOOS=linux GOARCH=amd64 go build -o build/amd64/${{ env.MYAPP }}-amd64 ./cmd/main.go
+      - name: Make binaries
+        uses: 0xnu/go-deploy-action@master
+        with:
+          args: linux/amd64 darwin/amd64
