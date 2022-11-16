@@ -5,9 +5,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hinha/watchgo/config"
-	"github.com/hinha/watchgo/core"
-	"github.com/hinha/watchgo/utils"
+	"github.com/hinha/watchgo-cloned/config"
+	"github.com/hinha/watchgo-cloned/core"
+	"github.com/hinha/watchgo-cloned/utils"
 )
 
 // ProcessEvent construct

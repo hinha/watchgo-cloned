@@ -3,8 +3,8 @@ package core
 import "C"
 import (
 	"fmt"
-	"github.com/hinha/watchgo/config"
-	"github.com/hinha/watchgo/logger"
+	"github.com/hinha/watchgo-cloned/config"
+	"github.com/hinha/watchgo-cloned/logger"
 	"io"
 	"os"
 	"os/exec"

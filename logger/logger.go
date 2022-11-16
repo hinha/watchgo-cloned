@@ -2,7 +2,7 @@ package logger
 
 import (
 	"fmt"
-	"github.com/hinha/watchgo/config"
+	"github.com/hinha/watchgo-cloned/config"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/natefinch/lumberjack.v2"

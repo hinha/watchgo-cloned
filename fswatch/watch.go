@@ -5,7 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
-	"github.com/hinha/watchgo/logger"
+	"github.com/hinha/watchgo-cloned/logger"
 	"io/fs"
 	"log"
 	"os"
@@ -18,9 +18,9 @@ import (
 
 	"github.com/rjeczalik/notify"
 
-	"github.com/hinha/watchgo/config"
-	"github.com/hinha/watchgo/core"
-	"github.com/hinha/watchgo/utils"
+	"github.com/hinha/watchgo-cloned/config"
+	"github.com/hinha/watchgo-cloned/core"
+	"github.com/hinha/watchgo-cloned/utils"
 )
 
 // intervalDuration sync every 30 minutes

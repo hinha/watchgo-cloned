@@ -6,7 +6,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/hinha/watchgo/config"
+	"github.com/hinha/watchgo-cloned/config"
 )
 
 func NewFileReader(builder Builder) *File {
