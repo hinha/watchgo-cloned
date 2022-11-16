@@ -18,9 +18,9 @@ jobs:
       GOPATH: ${{ github.workspace }}
       GO111MODULE: on
 
-#    defaults:
-#      run:
-#        working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
+    defaults:
+      run:
+        working-directory: ${{ env.GOPATH }}
 
     steps:
       - uses: actions/checkout@v3
