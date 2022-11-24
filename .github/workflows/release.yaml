@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@master
       - name: compile and release
         uses: wangyoucao577/go-release-action@v1.32
-        env:
+        with:
           github_token: ${{ secrets.G_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
