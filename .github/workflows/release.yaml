@@ -11,6 +11,11 @@ jobs:
       matrix:
         goos: [ linux, darwin ]
         goarch: [ amd64 ]
+        exclude:
+          - goarch: "386"
+            goos: darwin
+          - goarch: arm
+            goos: darwin
 
     steps:
       - uses: actions/checkout@master
