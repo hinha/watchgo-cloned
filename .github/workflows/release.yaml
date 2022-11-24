@@ -19,6 +19,10 @@ jobs:
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
           goversion: "https://dl.google.com/go/go1.19.1.linux-amd64.tar.gz"
+          pre_command: export CGO_ENABLED=0
+          build_command: go build -v
           project_path: "./cmd"
           binary_name: "watchgo"
           extra_files: LICENSE README.md
+          md5sum: TRUE
+          sha256sum: FALSE
