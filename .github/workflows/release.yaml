@@ -3,9 +3,14 @@ on:
     types: [created]
 name: Build Release
 jobs:
-  release-linux-amd64:
-    name: release binaries linux/amd64
+  release-matrix:
+    name: release binaries
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        goos: [ linux, darwin ]
+        goarch: [ amd64 ]
 
     steps:
       - uses: actions/checkout@master
@@ -16,7 +21,7 @@ jobs:
           goos: linux
           goarch: amd64
           overwrite: true
-          goversion: "https://go.dev/dl/go1.19.1.linux-amd64.tar.gz"
+          goversion: 1.19
           pre_command: export CGO_ENABLED=1
           build_command: go build
           project_path: "./cmd"
@@ -24,21 +29,3 @@ jobs:
           extra_files: LICENSE README.md
           md5sum: TRUE
           sha256sum: FALSE
-          compress_assets: FALSE
-
-  release-darwin-amd64:
-    name: release binaries darwin/amd64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: wangyoucao577/go-release-action@v1.32
-        env:
-          github_token: ${{ secrets.G_TOKEN }}
-          goos: darwin
-          goarch: amd64
-          goversion: "https://go.dev/dl/go1.19.1.darwin-amd64.tar.gz"
-          pre_command: export CGO_ENABLED=1
-          build_command: go build
-          project_path: "./cmd"
-          binary_name: "watchgo"
-          extra_files: LICENSE README.md
