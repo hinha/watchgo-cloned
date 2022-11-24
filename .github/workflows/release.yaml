@@ -27,7 +27,7 @@ jobs:
           compress_assets: FALSE
 
   release-darwin-amd64:
-    name: release binaries linux/amd64
+    name: release binaries darwin/amd64
     runs-on: ubuntu-latest
 
     steps:
