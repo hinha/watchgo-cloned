@@ -29,22 +29,11 @@ jobs:
   release-darwin-amd64:
     name: release binaries darwin/amd64
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@master
-      - name: compile and release
-        uses: wangyoucao577/go-release-action@v1.32
-        with:
+      - uses: wangyoucao577/go-release-action@v1.32
+        env:
           github_token: ${{ secrets.G_TOKEN }}
-          goos: darwin
+          goversion: 1.19
           goarch: amd64
-          overwrite: true
-          goversion: "https://dl.google.com/go/go1.19.1.darwin-amd64.tar.gz"
-          pre_command: export CGO_ENABLED=1
-          build_command: go build
-          project_path: "./cmd"
-          binary_name: "watchgo"
-          extra_files: LICENSE README.md
-          md5sum: TRUE
-          sha256sum: FALSE
-          compress_assets: FALSE
+          goos: darwin
