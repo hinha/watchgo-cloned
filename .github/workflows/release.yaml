@@ -18,8 +18,8 @@ jobs:
         uses: wangyoucao577/go-release-action@v1.32
         with:
           github_token: ${{ secrets.G_TOKEN }}
-          goos: linux
-          goarch: amd64
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
           overwrite: true
           goversion: 1.19
           pre_command: export CGO_ENABLED=1
