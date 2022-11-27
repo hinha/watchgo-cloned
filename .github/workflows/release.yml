@@ -27,7 +27,7 @@ jobs:
           overwrite: true
           goversion: ${{ matrix.go }}
           pre_command: export CGO_ENABLED=0
-          ldflags: -X 'main.version=${{ github.event.release.tag_name }}' -X 'main.build=$(date)' -X main.docs=https://github.com/hinha/watchgo/blob/master/README.md
+          ldflags: -X 'main.version=${{ github.event.release.tag_name }}' -X 'main.build=${{ github.event.release.published_at }}' -X main.author=${{ github.event.release.author.login }} -X main.commit=${{ github.sha }} -X main.docs=https://github.com/hinha/watchgo/blob/master/README.md
           build_command: go build
           project_path: "./cmd"
           binary_name: "watchgo"
