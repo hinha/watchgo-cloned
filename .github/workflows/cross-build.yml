@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - develop/*
 jobs:
   cross-build-test:
     strategy:
@@ -51,13 +52,13 @@ jobs:
         uses: actions/checkout@v3
       - name: Run Build
         env:
-          CGO_ENABLED: 1
+          CGO_ENABLED: 0
           GOOS: ${{ matrix.goos }}
         shell: bash
         continue-on-error: true
         working-directory: ./cmd
         run: |
-          GOOS=$GOOS go build -trimpath -o watchgo-"$GOOS"-amd64 2> /dev/null
+          GOOS=$GOOS go build --ldflags="-X 'main.version=0.0.8-beta' -X 'main.build=$(date)' -X main.docs=https://github.com/hinha/watchgo/blob/master/README.md" -trimpath -o watchgo-"$GOOS"-amd64 2> /dev/null
           if [ $? -ne 0 ]; then
             echo "::warning ::$GOOS Build Failed"
             exit 0
