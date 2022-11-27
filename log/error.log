@@ -24058,3 +24058,5 @@
 {"level":"error","app":"watch-go","pid":83823,"error":"open /Users/hinha/Downloads/WhatsApp Image 2022-11-04 at 18.35.26.jpeg: permission denied","time":"2022/11/15 12:04:26.381","message":"local drive"}
 {"level":"error","app":"watch-go","pid":83823,"error":"open /Users/hinha/Downloads/WhatsApp Image 2022-11-04 at 18.35.26.jpeg: permission denied","time":"2022/11/15 12:34:26.505","message":"local drive"}
 {"level":"error","app":"watch-go","pid":83823,"error":"open /Users/hinha/Downloads/WhatsApp Image 2022-11-04 at 18.35.26.jpeg: permission denied","time":"2022/11/15 13:04:26.570","message":"local drive"}
+{"level":"error","app":"watch-go","pid":70081,"error":"open /Users/hinha/Downloads/WhatsApp Image 2022-11-04 at 18.35.26.jpeg: permission denied","time":"2022/11/16 10:52:49.505","message":"local drive"}
+{"level":"error","app":"watch-go","pid":70081,"error":"size limits on the file Docker.dmg of maximum, 100.00MB","time":"2022/11/16 10:52:51.020","message":"file sync"}

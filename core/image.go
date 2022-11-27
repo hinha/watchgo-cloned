@@ -1,7 +1,7 @@
 package core
 
 import (
-	"github.com/hinha/watchgo-cloned/config"
+	"github.com/hinha/watchgo/config"
 	"os"
 	"path"
 	"path/filepath"

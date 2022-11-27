@@ -5,7 +5,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
-	"github.com/hinha/watchgo-cloned/logger"
 	"io/fs"
 	"log"
 	"os"
@@ -16,18 +15,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/rjeczalik/notify"
+	"github.com/fsnotify/fsnotify"
 
-	"github.com/hinha/watchgo-cloned/config"
-	"github.com/hinha/watchgo-cloned/core"
-	"github.com/hinha/watchgo-cloned/utils"
+	"github.com/hinha/watchgo/config"
+	"github.com/hinha/watchgo/core"
+	"github.com/hinha/watchgo/logger"
+	"github.com/hinha/watchgo/utils"
 )
 
-// intervalDuration sync every 30 minutes
+// intervalDuration sync every 30 minutes.
 var intervalDuration = 30 * time.Minute
 
 type FSWatcher struct {
-	FChan chan notify.EventInfo
+	w      *fsnotify.Watcher
+	Events chan fsnotify.Event
 
 	syncDone chan struct{}
 	image    *core.Image
@@ -64,7 +65,9 @@ func janitor(ctx context.Context, w *FSWatcher, interval time.Duration) {
 	}
 }
 
-func (w *FSWatcher) FSWatcherStart(ctx context.Context) {
+func (w *FSWatcher) FSWatcherStart(ctx context.Context, watch *fsnotify.Watcher) {
+	w.w = watch
+
 	w.syncDone = make(chan struct{})
 	defer close(w.syncDone)
 
@@ -75,25 +78,22 @@ func (w *FSWatcher) FSWatcherStart(ctx context.Context) {
 	starTime := time.Now()
 	for i, p := range config.FileSystemCfg.Paths {
 		w.syncFile(p, i)
-		go watcherInit(w.FChan, p)
+		//go watcherInit(w.FChan, p)
+		go watcherInit(w.w, p)
 	}
 	logger.Debug().Dur("duration", time.Since(starTime)).Msg("scanning complete")
 	go janitor(ctx, w, time.Since(starTime))
 }
 
 func (w *FSWatcher) FSWatcherStop() {
-	notify.Stop(w.FChan)
+	if err := w.w.Close(); err != nil {
+		log.Fatal(err)
+	}
 }
 
-func (w *FSWatcher) FSWatcherRestart(ctx context.Context) {
-	w.FSWatcherStop()
-	w.FSWatcherStart(ctx)
-}
-
-// watcherInit
-func watcherInit(ec chan notify.EventInfo, path string) {
-	path = filepath.Join(path, "/...")
-	if err := notify.Watch(path, ec, notify.Create); err != nil {
+// watcherInit.
+func watcherInit(w *fsnotify.Watcher, path string) {
+	if err := w.Add(path); err != nil {
 		log.Fatalf("watch path %s error: %s\n", path, err)
 	}
 }
@@ -139,7 +139,7 @@ func (w *FSWatcher) syncFile(path string, index int) {
 			var countDuplicate int
 			for _, v := range mDrive {
 				if filepath.Base(v) == filepath.Base(r.path) {
-					countDuplicate += 1
+					countDuplicate++
 				}
 			}
 
@@ -169,17 +169,12 @@ func (w *FSWatcher) syncFile(path string, index int) {
 		logger.Error().Err(err).Msg("fatal local drive")
 		return
 	}
-
-	return
 }
 
 func (w *FSWatcher) hardDrive(c chan resultSync, errc chan error) {
-	dirPath := path.Join(config.FileSystemCfg.Backup.HardDrivePath, core.GetStaticBackupFolder())
+	dirPath := path.Join(config.FileSystemCfg.Backup.HardDrivePath, config.GetStaticBackupFolder())
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
-		if err := os.Mkdir(dirPath, os.ModePerm); err != nil {
-			logger.Error().Err(err).Msg("hard drive create folder")
-			return
-		}
+		_ = os.Mkdir(dirPath, 0700)
 	}
 	go walkDir(w.syncDone, c, errc, dirPath, 0, false)
 }

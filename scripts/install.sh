@@ -1,10 +1,10 @@
 VERSION="$1"
 
 PATH="$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
-TARGET_DIR=/usr/local/bin/gowatch
-CONF_DIR=/etc/gowatch
-LOG_DIR=/var/log/gowatch
-PERM="chmod +x /usr/local/bin/gowatch"
+TARGET_DIR=/usr/local/bin/watchgo
+CONF_DIR=/etc/watchgo
+LOG_DIR=/var/log/watchgo
+PERM="chmod +x /usr/local/bin/watchgo"
 
 if [ `getconf LONG_BIT` = "32" ]; then
     ARCH="386"
@@ -22,7 +22,18 @@ else
     die "Failed to download watchgo: curl not found, plz install curl"
 fi
 
-mkdir -p $CONF_DIR $LOG_DIR
+sudo chown -R $(whoami) $TARGET_DIR
+
+if [ ! -d $CONF_DIR ]; then
+	sudo mkdir -p $CONF_DIR
+	echo "Creating folder $CONF_DIR"
+fi
+sudo chown -R $(whoami) $CONF_DIR
+if [ ! -d $LOG_DIR ]; then
+	sudo mkdir -p $LOG_DIR
+	echo "Creating folder $LOG_DIR"
+fi
+sudo chown -R $(whoami) $LOG_DIR
 
 echo -n "Fetching watchgo from $URL: "
 $download_cmd || die "Error when downloading watchgo from $URL"
