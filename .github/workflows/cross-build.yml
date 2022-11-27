@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        goos: [ 'linux', 'freebsd', 'openbsd', 'windows', 'darwin', 'netbsd' ]
+        goos: [ 'linux', 'windows', 'darwin' ]
         go: [ '1.19' ]
         include:
           # Set the minimum Go patch version for the given Go minor
